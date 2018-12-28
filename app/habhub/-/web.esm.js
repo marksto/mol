@@ -1844,7 +1844,7 @@ var $;
                         this.start_pos(pos);
                     }
                     if (event.touches.length === 2) {
-                        const distance = Math.pow((Math.pow((event.touches[1].pageX - event.touches[0].pageX), 2) + Math.pow((event.touches[1].pageY - event.touches[0].pageY), 2)), .5);
+                        const distance = ((event.touches[1].pageX - event.touches[0].pageX) ** 2 + (event.touches[1].pageY - event.touches[0].pageY) ** 2) ** .5;
                         this.start_distance(distance);
                         this.start_zoom(this.zoom());
                     }
@@ -1920,7 +1920,7 @@ var $;
                         return;
                     const pos0 = [event.touches[0].pageX, event.touches[0].pageY];
                     const pos1 = [event.touches[1].pageX, event.touches[1].pageY];
-                    const distance = Math.pow((Math.pow((pos1[0] - pos0[0]), 2) + Math.pow((pos1[1] - pos0[1]), 2)), .5);
+                    const distance = ((pos1[0] - pos0[0]) ** 2 + (pos1[1] - pos0[1]) ** 2) ** .5;
                     const center = [pos1[0] / 2 + pos0[0] / 2, pos1[1] / 2 + pos0[1] / 2];
                     const start_zoom = this.start_zoom();
                     const mult = distance / this.start_distance();

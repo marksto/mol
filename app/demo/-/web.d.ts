@@ -2176,7 +2176,8 @@ declare namespace $ {
         debounce(): number;
         Trigger_icon(): $mol_icon_chevron;
         bubble_content(): any[];
-        Bubble_content(): $mol_list;
+        Menu(): $mol_list;
+        menu_content(): any[];
         option_rows(): any[];
     }
 }
@@ -2193,6 +2194,7 @@ declare namespace $.$$ {
         nav_components(): ($mol_view | $mol_button_minor)[];
         option_content_current(): any[];
         trigger_content(): any[];
+        menu_content(): ($mol_view | $mol_button_minor)[];
     }
 }
 declare namespace $ {

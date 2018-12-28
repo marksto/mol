@@ -131,14 +131,6 @@ var $;
 //fail.js.map
 ;
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var $;
 (function ($_1) {
     let $$;
@@ -156,16 +148,14 @@ var $;
     $_1.$mol_test = $mol_test;
     $_1.$mol_test_mocks = [];
     $_1.$mol_test_all = [];
-    function $mol_test_run() {
-        return __awaiter(this, void 0, void 0, function* () {
-            for (var test of $_1.$mol_test_all) {
-                let context = Object.create($$);
-                for (let mock of $_1.$mol_test_mocks)
-                    yield mock(context);
-                yield test(context);
-            }
-            console.info('$mol_test', $_1.$mol_test_all.length);
-        });
+    async function $mol_test_run() {
+        for (var test of $_1.$mol_test_all) {
+            let context = Object.create($$);
+            for (let mock of $_1.$mol_test_mocks)
+                await mock(context);
+            await test(context);
+        }
+        console.info('$mol_test', $_1.$mol_test_all.length);
     }
     $_1.$mol_test_run = $mol_test_run;
     let scheduled = false;
@@ -2664,7 +2654,7 @@ var $;
                         this.start_pos(pos);
                     }
                     if (event.touches.length === 2) {
-                        const distance = Math.pow((Math.pow((event.touches[1].pageX - event.touches[0].pageX), 2) + Math.pow((event.touches[1].pageY - event.touches[0].pageY), 2)), .5);
+                        const distance = ((event.touches[1].pageX - event.touches[0].pageX) ** 2 + (event.touches[1].pageY - event.touches[0].pageY) ** 2) ** .5;
                         this.start_distance(distance);
                         this.start_zoom(this.zoom());
                     }
@@ -2740,7 +2730,7 @@ var $;
                         return;
                     const pos0 = [event.touches[0].pageX, event.touches[0].pageY];
                     const pos1 = [event.touches[1].pageX, event.touches[1].pageY];
-                    const distance = Math.pow((Math.pow((pos1[0] - pos0[0]), 2) + Math.pow((pos1[1] - pos0[1]), 2)), .5);
+                    const distance = ((pos1[0] - pos0[0]) ** 2 + (pos1[1] - pos0[1]) ** 2) ** .5;
                     const center = [pos1[0] / 2 + pos0[0] / 2, pos1[1] / 2 + pos0[1] / 2];
                     const start_zoom = this.start_zoom();
                     const mult = distance / this.start_distance();

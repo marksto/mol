@@ -196,20 +196,25 @@ namespace $ { export class $mol_select extends $mol_pop {
 		})( new this.$.$mol_icon_chevron )
 	}
 
-	/// bubble_content / <= Bubble_content
+	/// bubble_content / <= Menu
 	bubble_content() {
-		return [].concat( this.Bubble_content() )
+		return [].concat( this.Menu() )
 	}
 
-	/// Bubble_content $mol_list rows /
-	/// 	<= Filter
-	/// 	<= option_rows
+	/// Menu $mol_list rows <= menu_content
 	@ $mol_mem
-	Bubble_content() {
+	Menu() {
 		return (( obj )=>{
-			obj.rows = () => [].concat( this.Filter() , this.option_rows() )
+			obj.rows = () => this.menu_content()
 			return obj
 		})( new this.$.$mol_list )
+	}
+
+	/// menu_content /
+	/// 	<= Filter
+	/// 	<= option_rows
+	menu_content() {
+		return [].concat( this.Filter() , this.option_rows() )
 	}
 
 	/// option_rows /

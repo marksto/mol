@@ -500,7 +500,7 @@ declare namespace $ {
         version(): any;
         exists(next?: boolean): boolean;
         parent(): $mol_file;
-        type(): "dir" | "link" | "file" | "blocks" | "chars" | "fifo" | "socket";
+        type(): "file" | "dir" | "blocks" | "chars" | "link" | "fifo" | "socket";
         name(): any;
         ext(): string;
         content(next?: string, force?: $mol_atom_force): any;
@@ -1338,7 +1338,7 @@ declare namespace $ {
         method_get(): string;
         resolve(uri: string): $mol_webdav;
         prop(prop: string): string;
-        type(): "dir" | "file";
+        type(): "file" | "dir";
     }
 }
 declare namespace $ {
@@ -1407,7 +1407,7 @@ declare namespace $.$$ {
         webdav(uri: string): $mol_webdav;
         folder_row_current(uri: string): boolean;
         webdavs(): $mol_webdav[];
-        webdav_type(uri: string): "dir" | "file";
+        webdav_type(uri: string): "file" | "dir";
         webdav_title(uri: string): string;
         folder_rows(uri: string): $.$mol_link[];
         folder_row_arg(uri: string): {

@@ -1844,7 +1844,7 @@ var $;
                         this.start_pos(pos);
                     }
                     if (event.touches.length === 2) {
-                        const distance = Math.pow((Math.pow((event.touches[1].pageX - event.touches[0].pageX), 2) + Math.pow((event.touches[1].pageY - event.touches[0].pageY), 2)), .5);
+                        const distance = ((event.touches[1].pageX - event.touches[0].pageX) ** 2 + (event.touches[1].pageY - event.touches[0].pageY) ** 2) ** .5;
                         this.start_distance(distance);
                         this.start_zoom(this.zoom());
                     }
@@ -1920,7 +1920,7 @@ var $;
                         return;
                     const pos0 = [event.touches[0].pageX, event.touches[0].pageY];
                     const pos1 = [event.touches[1].pageX, event.touches[1].pageY];
-                    const distance = Math.pow((Math.pow((pos1[0] - pos0[0]), 2) + Math.pow((pos1[1] - pos0[1]), 2)), .5);
+                    const distance = ((pos1[0] - pos0[0]) ** 2 + (pos1[1] - pos0[1]) ** 2) ** .5;
                     const center = [pos1[0] / 2 + pos0[0] / 2, pos1[1] / 2 + pos0[1] / 2];
                     const start_zoom = this.start_zoom();
                     const mult = distance / this.start_distance();
@@ -3910,13 +3910,16 @@ var $;
             })(new this.$.$mol_icon_chevron);
         }
         bubble_content() {
-            return [].concat(this.Bubble_content());
+            return [].concat(this.Menu());
         }
-        Bubble_content() {
+        Menu() {
             return ((obj) => {
-                obj.rows = () => [].concat(this.Filter(), this.option_rows());
+                obj.rows = () => this.menu_content();
                 return obj;
             })(new this.$.$mol_list);
+        }
+        menu_content() {
+            return [].concat(this.Filter(), this.option_rows());
         }
         option_rows() {
             return [];
@@ -3960,7 +3963,7 @@ var $;
     ], $mol_select.prototype, "Trigger_icon", null);
     __decorate([
         $.$mol_mem
-    ], $mol_select.prototype, "Bubble_content", null);
+    ], $mol_select.prototype, "Menu", null);
     $.$mol_select = $mol_select;
 })($ || ($ = {}));
 //select.view.tree.js.map
@@ -4036,6 +4039,11 @@ var $;
                 return (!this.value() && this.Filter())
                     ? [this.Filter()]
                     : [...this.option_content_current(), this.Trigger_icon()];
+            }
+            menu_content() {
+                return (this.value() && this.Filter())
+                    ? [this.Filter(), ...this.option_rows()]
+                    : this.option_rows();
             }
         }
         __decorate([

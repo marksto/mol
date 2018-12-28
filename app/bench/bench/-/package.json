@@ -1,6 +1,6 @@
 {
   "name": "mol_app_bench_bench",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "node.js",
   "module": "node.esm.js",
   "browser": "web.esm.js",

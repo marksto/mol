@@ -131,14 +131,6 @@ var $;
 //fail.js.map
 ;
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var $;
 (function ($_1) {
     let $$;
@@ -156,16 +148,14 @@ var $;
     $_1.$mol_test = $mol_test;
     $_1.$mol_test_mocks = [];
     $_1.$mol_test_all = [];
-    function $mol_test_run() {
-        return __awaiter(this, void 0, void 0, function* () {
-            for (var test of $_1.$mol_test_all) {
-                let context = Object.create($$);
-                for (let mock of $_1.$mol_test_mocks)
-                    yield mock(context);
-                yield test(context);
-            }
-            console.info('$mol_test', $_1.$mol_test_all.length);
-        });
+    async function $mol_test_run() {
+        for (var test of $_1.$mol_test_all) {
+            let context = Object.create($$);
+            for (let mock of $_1.$mol_test_mocks)
+                await mock(context);
+            await test(context);
+        }
+        console.info('$mol_test', $_1.$mol_test_all.length);
     }
     $_1.$mol_test_run = $mol_test_run;
     let scheduled = false;

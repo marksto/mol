@@ -131,14 +131,6 @@ var $;
 //fail.js.map
 ;
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var $;
 (function ($_1) {
     let $$;
@@ -156,16 +148,14 @@ var $;
     $_1.$mol_test = $mol_test;
     $_1.$mol_test_mocks = [];
     $_1.$mol_test_all = [];
-    function $mol_test_run() {
-        return __awaiter(this, void 0, void 0, function* () {
-            for (var test of $_1.$mol_test_all) {
-                let context = Object.create($$);
-                for (let mock of $_1.$mol_test_mocks)
-                    yield mock(context);
-                yield test(context);
-            }
-            console.info('$mol_test', $_1.$mol_test_all.length);
-        });
+    async function $mol_test_run() {
+        for (var test of $_1.$mol_test_all) {
+            let context = Object.create($$);
+            for (let mock of $_1.$mol_test_mocks)
+                await mock(context);
+            await test(context);
+        }
+        console.info('$mol_test', $_1.$mol_test_all.length);
     }
     $_1.$mol_test_run = $mol_test_run;
     let scheduled = false;
@@ -760,32 +750,16 @@ var $;
 //trim.js.map
 ;
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var $;
 (function ($_1) {
-    $_1.$mol_test_mocks.push(($) => __awaiter(this, void 0, void 0, function* () {
-        yield $_1.$mol_fiber_warp();
+    $_1.$mol_test_mocks.push(async ($) => {
+        await $_1.$mol_fiber_warp();
         $_1.$mol_fiber.deadline = Date.now() + 100;
-    }));
+    });
 })($ || ($ = {}));
 //fiber.test.js.map
 ;
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var $;
 (function ($) {
     function $mol_fiber_defer(calculate) {
@@ -843,19 +817,17 @@ var $;
         };
     }
     $.$mol_fiber_sync = $mol_fiber_sync;
-    function $mol_fiber_warp() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const deadline = $mol_fiber.deadline;
-            try {
-                $mol_fiber.deadline = Number.POSITIVE_INFINITY;
-                while ($mol_fiber.queue.length)
-                    yield $mol_fiber.tick();
-                return Promise.resolve();
-            }
-            finally {
-                $mol_fiber.deadline = deadline;
-            }
-        });
+    async function $mol_fiber_warp() {
+        const deadline = $mol_fiber.deadline;
+        try {
+            $mol_fiber.deadline = Number.POSITIVE_INFINITY;
+            while ($mol_fiber.queue.length)
+                await $mol_fiber.tick();
+            return Promise.resolve();
+        }
+        finally {
+            $mol_fiber.deadline = deadline;
+        }
     }
     $.$mol_fiber_warp = $mol_fiber_warp;
     function $mol_fiber_fence(func) {
@@ -888,17 +860,15 @@ var $;
             this.cursor = 0;
             this.masters = [];
         }
-        static tick() {
-            return __awaiter(this, void 0, void 0, function* () {
-                while ($mol_fiber.queue.length > 0) {
-                    if (Date.now() > $mol_fiber.deadline) {
-                        $mol_fiber.schedule();
-                        return;
-                    }
-                    const task = $mol_fiber.queue.shift();
-                    yield task();
+        static async tick() {
+            while ($mol_fiber.queue.length > 0) {
+                if (Date.now() > $mol_fiber.deadline) {
+                    $mol_fiber.schedule();
+                    return;
                 }
-            });
+                const task = $mol_fiber.queue.shift();
+                await task();
+            }
         }
         static schedule() {
             if (!$mol_fiber.scheduled) {

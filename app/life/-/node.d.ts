@@ -584,7 +584,7 @@ declare namespace $ {
         version(): any;
         exists(next?: boolean): boolean;
         parent(): $mol_file;
-        type(): "dir" | "link" | "file" | "blocks" | "chars" | "fifo" | "socket";
+        type(): "file" | "dir" | "blocks" | "chars" | "link" | "fifo" | "socket";
         name(): any;
         ext(): string;
         content(next?: string, force?: $mol_atom_force): any;
